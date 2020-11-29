@@ -30,7 +30,11 @@ use sp_runtime::{
 	transaction_validity::{TransactionPriority, TransactionSource, TransactionValidity},
 	ApplyExtrinsicResult, DispatchResult, FixedPointNumber, ModuleId,
 };
-use sp_std::prelude::*;
+use sp_std::{
+	collections::btree_set::BTreeSet,
+	prelude::*,
+};
+
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
@@ -44,7 +48,7 @@ use pallet_session::historical as pallet_session_historical;
 use pallet_transaction_payment::{Multiplier, TargetedFeeAdjustment};
 use pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo;
 
-use orml_xcm_support::{CurrencyIdConverter, IsConcreteWithGeneralKey, MultiCurrencyAdapter, XcmHandler as HandleXcm};
+use orml_xcm_support::{NativePalletAssetOr, CurrencyIdConverter, IsConcreteWithGeneralKey, MultiCurrencyAdapter, XcmHandler as HandleXcm};
 use polkadot_parachain::primitives::Sibling;
 use xcm::v0::{Junction, MultiLocation, NetworkId, Xcm};
 use xcm_builder::{
@@ -1113,6 +1117,15 @@ pub type LocalOriginConverter = (
 	SignedAccountId32AsNative<AcalaNetwork, Origin>,
 );
 
+parameter_types! {
+	pub NativeTokens: BTreeSet<(Vec<u8>, MultiLocation)> = {
+		let mut t = BTreeSet::new();
+		//phala reserve asset identity, test only
+		t.insert(("PHA".into(), MultiLocation::X2(Junction::Parent, Junction::Parachain { id: 2000 })));
+		t
+	};
+}
+
 pub struct XcmConfig;
 impl Config for XcmConfig {
 	type Call = Call;
@@ -1120,12 +1133,12 @@ impl Config for XcmConfig {
 	type AssetTransactor = LocalAssetTransactor;
 	type OriginConverter = LocalOriginConverter;
 	//TODO: might need to add other assets based on orml-tokens
-	type IsReserve = NativeAsset;
+	type IsReserve = NativePalletAssetOr<NativeTokens>;
 	type IsTeleporter = ();
 	type LocationInverter = LocationInverter<Ancestry>;
 }
 
-impl pallet_xcm_handler::Trait for Runtime {
+impl xcm_handler::Trait for Runtime {
 	type Event = Event;
 	type AccountIdConverter = LocationConverter;
 	type XcmExecutor = XcmExecutor<XcmConfig>;
@@ -1203,7 +1216,7 @@ construct_runtime!(
 		MessageBroker: cumulus_message_broker::{Module, Call, Inherent, Event<T>, Origin},
 		ParachainInfo: parachain_info::{Module, Storage, Config},
 		XTokens: orml_xtokens::{Module, Storage, Call, Event<T>},
-		XcmHandler: pallet_xcm_handler::{Module, Call, Event},
+		XcmHandler: xcm_handler::{Module, Call, Event},
 	}
 );
 

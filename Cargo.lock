@@ -169,7 +169,6 @@ dependencies = [
  "pallet-transaction-payment-rpc-runtime-api",
  "pallet-treasury",
  "pallet-utility",
- "pallet-xcm-handler",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
@@ -195,6 +194,7 @@ dependencies = [
  "xcm",
  "xcm-builder",
  "xcm-executor",
+ "xcm-handler",
 ]
 
 [[package]]
@@ -4993,19 +4993,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-xcm-handler"
-version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=gav-xcmp#33ecb02d0ce2b700208c1f83dcc402ee68fb1a94"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-std",
- "xcm",
- "xcm-executor",
-]
-
-[[package]]
 name = "parachain-info"
 version = "0.1.0"
 source = "git+https://github.com/paritytech/cumulus?branch=gav-xcmp#23ca78747a65cc1ead5b9134f65bd56e841dad7c"
@@ -8510,8 +8497,7 @@ dependencies = [
 [[package]]
 name = "substrate-build-script-utils"
 version = "2.0.0-rc5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66e900f037f623d363965b300f45ebdef955ae24929740200d29d7f34fbe7bd3"
+source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#83544d41abcc0e3d3cbbd6aa510e04dc50863e5c"
 dependencies = [
  "platforms",
 ]
@@ -8519,7 +8505,8 @@ dependencies = [
 [[package]]
 name = "substrate-build-script-utils"
 version = "2.0.0-rc5"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-branch#83544d41abcc0e3d3cbbd6aa510e04dc50863e5c"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "66e900f037f623d363965b300f45ebdef955ae24929740200d29d7f34fbe7bd3"
 dependencies = [
  "platforms",
 ]
@@ -9887,6 +9874,18 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "xcm",
+]
+
+[[package]]
+name = "xcm-handler"
+version = "0.8.22"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-std",
+ "xcm",
+ "xcm-executor",
 ]
 
 [[package]]

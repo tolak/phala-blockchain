@@ -65,7 +65,7 @@ rococo-runtime = { git = "https://github.com/paritytech/polkadot", branch = "gav
 xcm = { git = "https://github.com/paritytech/polkadot", branch = "gav-xcmp", default-features = false }
 xcm-executor = { git = "https://github.com/paritytech/polkadot", branch = "gav-xcmp", default-features = false }
 xcm-builder = { git = "https://github.com/paritytech/polkadot", branch = "gav-xcmp", default-features = false }
-pallet-xcm-handler  = { git = "https://github.com/paritytech/polkadot", branch = "gav-xcmp", default-features = false }
+xcm-handler  = { path = "../pallets/xcm-handler", default-features = false }
 
 orml-auction = { path = "../orml/auction", default-features = false }
 orml-benchmarking = { path = "../orml/benchmarking", default-features = false, optional = true }
@@ -163,7 +163,7 @@ std = [
 	"xcm/std",
 	"xcm-executor/std",
 	"xcm-builder/std",
-	"pallet-xcm-handler/std",
+	"xcm-handler/std",
 
 	"orml-auction/std",
 	"orml-benchmarking/std",
