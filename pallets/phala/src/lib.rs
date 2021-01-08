@@ -17,6 +17,9 @@ use frame_support::{
 };
 use codec::Decode;
 
+#[macro_use]
+mod benchmarking;
+
 // modules
 mod hashing;
 
